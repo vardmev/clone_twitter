@@ -20,6 +20,10 @@ Spork.prefork do
     # config.mock_with :mocha
     # config.mock_with :flexmock
     # config.mock_with :rr
+    def test_sign_in(user)
+      controller.sign_in(user)
+    end
+
     config.mock_with :rspec
 
     config.fixture_path = "#{::Rails.root}/spec/fixtures"
