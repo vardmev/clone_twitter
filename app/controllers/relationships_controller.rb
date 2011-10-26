@@ -4,11 +4,10 @@ class RelationshipsController < ApplicationController
   def create
     @user = User.find(params[:relationship][:followed_id])
     current_user.follow!(@user)
-   # @curr = current_user
     redirect_to @user
-#    if @user.flag == 1
+    if @user.follower_notification?
       UserMailer.send_email(@user, current_user).deliver
-#    end
+    end
   end
 
   def destroy

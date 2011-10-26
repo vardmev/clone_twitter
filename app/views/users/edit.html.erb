@@ -2,6 +2,12 @@
 
 <%= form_for(@user) do |f| %>
   <%= render 'fields', :f => f %>
+  <div class="field">
+    <%= f.check_box :follower_notification %>
+    <%= f.label :follower_notification, 
+                                    "Email when someone starts following me" %>
+
+  </div>
   <div class="actions">
     <%= f.submit "Update" %>
   </div>

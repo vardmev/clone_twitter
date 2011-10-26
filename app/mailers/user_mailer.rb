@@ -5,6 +5,6 @@ class UserMailer < ActionMailer::Base
     @user = user
     @current_user = current_user
     mail(:to => user.email,
-         :subject => "You have +1 follower")
+         :subject => "You have new follower")
   end
 end
