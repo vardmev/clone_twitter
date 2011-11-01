@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   before_filter :correct_user, :only => [:edit, :update]
   before_filter :guest_user, :only => [:new, :create]
   before_filter :admin_user,   :only => :destroy
-  before_filter :not_me,   :only => :destroy
 
   def index
     @users = User.paginate(:page => params[:page])
@@ -11,7 +10,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(:page => params[:page])
+    @microposts = @user.microposts.by_created.paginate(:page => params[:page])
   end
 
   def new
@@ -44,9 +43,14 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
-    flash[:success] = "User destroyed."
-    redirect_to users_path
+    @user = User.find(params[:id])
+    if current_user?(@user)
+      redirect_to(root_path)
+    else
+      @user.destroy
+      flash[:success] = "User destroyed."
+      redirect_to users_path
+    end
   end
 
   def following
@@ -65,11 +69,6 @@ class UsersController < ApplicationController
     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_path) unless current_user?(@user)
-    end
-
-    def not_me
-      @user = User.find(params[:id])
-      redirect_to(root_path) if current_user?(@user)
     end
 
     def guest_user
