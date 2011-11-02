@@ -9,3 +9,5 @@ doc/
 .project
 .DS_Store
 /bin/
+config/database.yml
+config/initializers/secret_token.rb
